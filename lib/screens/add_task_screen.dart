@@ -18,9 +18,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   String _title = '';
   DateTime _date = DateTime.now();
   TextEditingController _dateController = TextEditingController();
-
   final DateFormat _dateFormatter = DateFormat('MMM dd, yyyy');
-  final List<String> _priorities = ['Low', 'Medium', 'High'];
 
   @override
   void initState() {
@@ -66,10 +64,11 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
       print('$_title, $_date');
       Task task = Task(title: _title, date: _date);
       if (widget.task == null) {
-   
+        task.status = 0;
         DatabaseHelper.instance.insertTask(task);
       } else {
         task.id = widget.task.id;
+        task.status = widget.task.status;
         DatabaseHelper.instance.updateTask(task);
       }
       widget.updateTaskList();

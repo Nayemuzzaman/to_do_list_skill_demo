@@ -35,7 +35,7 @@ class DatabaseHelper {
 
   void _createDb(Database db, int version) async {
     await db.execute(
-      'CREATE TABLE $tasksTables($colid INTEGER PRIMARY KEY AUTOINCREMENT, $colTitle TEXT, $colDate TEXT, $colPriority TEXT, $colStatus INTEGER)',
+      'CREATE TABLE $tasksTables($colid INTEGER PRIMARY KEY AUTOINCREMENT, $colTitle TEXT, $colDate TEXT, $colStatus INTEGER)',
     );
   }
 
@@ -81,4 +81,5 @@ class DatabaseHelper {
     );
     return result;
   }
+  
 }

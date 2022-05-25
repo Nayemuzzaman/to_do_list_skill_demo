@@ -35,17 +35,29 @@ class _TodoListScreenState extends State<TodoListScreen> {
               task.title,
               style: TextStyle(
                 fontSize: 18.0,
-
+                  decoration: task.status == 0
+                    ? TextDecoration.none
+                    : TextDecoration.lineThrough,
               ),
             ),
             subtitle: Text(
               '${_dateFormatter.format(task.date)}',
               style: TextStyle(
                 fontSize: 15.0,
-         
+                  decoration: task.status == 0
+                    ? TextDecoration.none
+                    : TextDecoration.lineThrough,
               ),
             ),
-            
+            trailing: Checkbox(
+              onChanged: (value) {
+                task.status = value ? 1 : 0;
+                DatabaseHelper.instance.updateTask(task);
+                _updateTaskList();
+              },
+              activeColor: Theme.of(context).primaryColor,
+              value: task.status == 1 ? true : false,
+            ),
             onTap: () => Navigator.push(
               context, 
               MaterialPageRoute(
@@ -86,7 +98,7 @@ class _TodoListScreenState extends State<TodoListScreen> {
             );
           }
           final int completedTaskCount = snapshot.data
-              
+              .where((Task task) => task.status == 1)
               .toList()
               .length;
 
@@ -114,7 +126,6 @@ class _TodoListScreenState extends State<TodoListScreen> {
                         "$completedTaskCount of ${snapshot.data.length}",
                         style: TextStyle(
                           color: Colors.grey,
-
                           fontSize: 20.0,
                           fontWeight: FontWeight.w600,
                         ),
